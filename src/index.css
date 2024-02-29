@@ -1,0 +1,158 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 1080;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.App {
+  display: grid;
+  width: 80%;
+  margin: 10px;
+}
+
+textarea::placeholder {
+  /* font-weight: bold; */
+  text-align: center;
+}
+
+.buttonContainer button, #spanButton{
+	width: 220px;
+}
+
+
+#accordion{
+	margin-top: 5px;
+
+}
+
+
+.inputContainer {
+  display: grid;
+  /* grid-template-columns: 800px 250px; */
+  grid-template-columns: 800px 250px;
+  min-height: 200px;
+}
+
+#collapseOne {
+	padding: 0px;
+}
+
+.loaded_hiding {
+	transition: 0.3s opacity;
+	opacity: 0;
+  }
+
+/* #collapseTarget {
+	margin: 0px;
+	width: 232px;
+} */
+/* .card {
+	margin-left: 10px;
+} */
+
+/* .buttonContainer {
+	width: 230px;
+} */
+
+.card-body {
+	margin: 0;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+
+.mainTableCeil {
+	width: 15%;
+}
+
+.kmTableCeil {
+	width: 30px;
+}
+
+
+.input-file {
+	position: relative;
+	display: inline-block;
+}
+.input-file span {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	text-decoration: none;
+	/* font-size: 14px; */
+	vertical-align: middle;
+	color: rgb(255 255 255);
+	text-align: center;
+
+  border: 1px solid #6c757d;
+	border-radius: 6px;
+	/* background-color: #419152; */
+	/* line-height: 22px; */
+	height: 38px;
+  width: 93%;
+	padding: 5px;
+	box-sizing: border-box;
+	/* border: none; */
+	margin: 0;
+	transition: background-color 0.2s;
+}
+.input-file input[type=file] {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+	display: block;
+}
+
+.spanContainer{
+	/* margin-left: 9px; */
+	display: flex;
+	margin: 9px;
+}
+ 
+/* Focus */
+.input-file input[type=file]:focus + span {
+	box-shadow: 0 0 }
+
+	#infoContainer {
+		width: 200px;
+	}
+
+	.marginedContainer {
+		margin-left: 40px;
+	}
+
+
+
+	/* .mapContainer {
+		width: 300px;
+		height: 300px;
+		border: 2px solid red;
+	} */
+
+
+	.leaflet-container {
+		/* height: 40%;
+		width: 300px; */
+		/* border: 2px solid red; */
+		/* margin: 2%; */
+	}
+
+	/* .leaflet-map {
+		height: 50%;
+		width: 50%;
+		
+	}  */
