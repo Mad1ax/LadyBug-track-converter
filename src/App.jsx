@@ -63,13 +63,13 @@ const App = () => {
       if (elem.split(`,`)[0][0] === '0') {
         let currentString =
           elem.split(`,`)[0] +
-          ', ' +
+          ',' +
           elem.split(`,`)[18] +
-          ', ' +
+          ',' +
           elem.split(`,`)[19] +
-          ', ' +
+          ',' +
           elem.split(`,`)[20] +
-          ', ' +
+          ',' +
           elem.split(`,`)[21];
         processedArr.push(currentString);
       }
@@ -110,6 +110,13 @@ const App = () => {
 
     console.log('кадрый для интерполяции', frameIndexToInterpolateArr);
 
+    // let interpolatedArr = []
+    // for (let i = 0; i < frameIndexToInterpolateArr.length; i++) {
+    //   let currentArr = []
+    //   currentArr.push(frameIndexToInterpolateArr[i]);
+    // }
+
+
     //интерполирую координаты повторяющихся кадров в рабочем массиве
     frameIndexToInterpolateArr.forEach((elem) => {
       // console.log(slicedProcessedArr[elem]);
@@ -131,11 +138,11 @@ const App = () => {
         2;
       slicedProcessedArr[elem] =
         slicedProcessedArr[elem].split(',')[0] +
-        ',  ' +
+        ', ' +
         updatedCoords.latitude.toFixed(8) +
-        ',  ' +
+        ', ' +
         updatedCoords.longitude.toFixed(8) +
-        ',  ' +
+        ', ' +
         updatedPointHeight.toFixed(3) +
         ',' +
         slicedProcessedArr[elem].split(',')[4];
@@ -171,9 +178,11 @@ const App = () => {
       let currentString = elem + '\n';
       downloadedData += currentString;
     });
-    console.log(downloadedData);
 
-    writeFile(prompt('введите имя файла'), downloadedData);
+    let updStr = downloadedData.replaceAll(',','');
+    console.log(updStr);
+
+    writeFile(prompt('введите имя файла'), updStr);
     console.log('файл скачан');
   };
 
