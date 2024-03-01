@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-// import LeafletMap from './components/map';
-// import { indexOf } from 'lodash';
 import { getCenter } from 'geolib';
 // import _ from 'lodash';
-
-// import TableRow from './components/tableRow';
-// import TableHead from './components/tableHead';
-// import KmRow from './components/kmRow';
-// import InfoBlock from './components/infoBlock';
+// import { indexOf } from 'lodash';
+// import LeafletMap from './components/map';
 
 //загрузка тогоже файла
 //loader
@@ -28,6 +23,7 @@ const App = () => {
   //отслеживание изменения textarea
   const handleChange = (e) => setInputValue(e.target.value);
 
+  //загрузка файла
   const fileLoader = (event) => {
     let file = event.target.files[0];
     let reader = new FileReader();
@@ -56,9 +52,7 @@ const App = () => {
   //проверка файла
   const firstDataChecker = () => {
     initialFormData = inputValue.trim().split(`\n`);
-    console.log('check file');
-    // console.log(initialFormData);
-
+    console.log('проверяю файл...');
     initialFormData.forEach((elem) => {
       if (elem.split(`,`)[0][0] === '0') {
         let currentString =
@@ -73,8 +67,6 @@ const App = () => {
           elem.split(`,`)[21];
         processedArr.push(currentString);
       }
-
-      // console.log(currentString);
     });
 
     //сохраняю шапку документа
@@ -82,40 +74,47 @@ const App = () => {
 
     //отрезаю щапку - получаю массив для дальнейшей работы
     let slicedProcessedArr = processedArr.slice(1);
-    // console.log(slicedProcessedArr);
 
-    //получаю длину
+    //получаю длину рабочего массива
     let processedArrLength = slicedProcessedArr.length;
 
     //массив для индексов элементов с одинаковым UTC time
-    let frameNumberToInterpolateArr = [];
-    let frameIndexToInterpolateArr = [];
+    //кадры
+    let frameNumberToInterpolateArr = [[slicedProcessedArr[0].split(',')[0]]];
+    //индексы
+    let frameIndexToInterpolateArr = [[0]];
+    let currentFrameArr = [];
+    let currentIndexArr = [];
 
     //запускаю цикл по массиву без шапки
-    for (let i = 0; i < processedArrLength; i++) {
-      if (i > 1) {
-        let currentElemUTCTime = processedArr[i].split(',')[4];
-        let prevoisElemUTCTime = processedArr[i - 1].split(',')[4];
-        if (currentElemUTCTime === prevoisElemUTCTime) {
-          //создаю массив номеров кадров, которые необходимо интерполировать
-          frameNumberToInterpolateArr.push(
-            // processedArr[i - 1].split(',')[0],
-            processedArr[i].split(',')[0]
-          );
-          //создаю массив индексов кадров для интерполяции
-          frameIndexToInterpolateArr.push(i - 1);
-        }
+    for (let i = 1; i < processedArrLength; i++) {
+      //текущий массив одинаковых кадров
+
+      let currentElemUTCTime = processedArr[i].split(',')[4];
+      let prevoisElemUTCTime = processedArr[i - 1].split(',')[4];
+      let currentFrameNumber = processedArr[i].split(',')[0];
+
+      currentFrameArr.push(currentFrameNumber);
+      currentIndexArr.push(i);
+
+      // console.log(currentElemUTCTime, prevoisElemUTCTime);
+
+      if (currentElemUTCTime === prevoisElemUTCTime) {
+        // console.log(currentFrameNumber);
+        currentFrameArr.push(currentFrameNumber);
+        currentIndexArr.push(i);
+        // console.log(currentFrameArr);
+        // console.log(currentIndexArr);
+      } else {
+        frameNumberToInterpolateArr.push(currentFrameArr);
+        frameIndexToInterpolateArr.push(currentIndexArr);
+        currentFrameArr = [];
+        currentIndexArr = [];
       }
     }
 
-    console.log('кадрый для интерполяции', frameIndexToInterpolateArr);
-
-    // let interpolatedArr = []
-    // for (let i = 0; i < frameIndexToInterpolateArr.length; i++) {
-    //   let currentArr = []
-    //   currentArr.push(frameIndexToInterpolateArr[i]);
-    // }
-
+    console.log('кадры для интерполяции', frameNumberToInterpolateArr);
+    console.log('индексы для интерполяции', frameIndexToInterpolateArr);
 
     //интерполирую координаты повторяющихся кадров в рабочем массиве
     frameIndexToInterpolateArr.forEach((elem) => {
@@ -179,7 +178,7 @@ const App = () => {
       downloadedData += currentString;
     });
 
-    let updStr = downloadedData.replaceAll(',','');
+    let updStr = downloadedData.replaceAll(',', '');
     console.log(updStr);
 
     writeFile(prompt('введите имя файла'), updStr);
@@ -266,3 +265,31 @@ const App = () => {
 };
 
 export default App;
+
+// функция для создания массива с повторяющимися кадрами
+// //запускаю цикл по массиву без шапки
+//     for (let i = 1; i < processedArrLength; i++) {
+//       let currentFrameArr = [];
+//       // if (i > 1) {
+//         let currentElemUTCTime = processedArr[i].split(',')[4];
+//         let prevoisElemUTCTime = processedArr[i - 1].split(',')[4];
+//         // let currentFrameNumber = processedArr[i].split(',')[0];
+//         // let prevoisFrameNumber = processedArr[i-1].split(',')[0];
+
+//         // console.log(currentElemUTCTime, prevoisElemUTCTime);
+
+//         if (currentElemUTCTime === prevoisElemUTCTime) {
+//           console.log(currentElemUTCTime, prevoisElemUTCTime);
+//         }
+
+//         if (currentElemUTCTime === prevoisElemUTCTime) {
+//           //создаю массив номеров кадров, которые необходимо интерполировать
+//           frameNumberToInterpolateArr.push(
+//             // processedArr[i - 1].split(',')[0],
+//             processedArr[i].split(',')[0]
+//           );
+//           //создаю массив индексов кадров для интерполяции
+//           frameIndexToInterpolateArr.push(i - 1);
+//         // }
+//       }
+//     }
